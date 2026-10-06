@@ -4,7 +4,7 @@
 
 # <p align="center">Tinnitus</p>
 
-<p align="center"> A fast, native desktop music player built with Rust and GPUI. </p>
+<p align="center"> A fast, offline desktop music player for Windows, built with Rust and GPUI. Library with folder watching, smart playlists, equalizer, ReplayGain, gapless and crossfade playback. </p>
 
 <p align="center">  <b>Supported Audio Formats:</b> mp3, flac, wav, ogg, oga, opus, m4a, m4b, mp4, aac, aiff, aif, aifc </p>
 
