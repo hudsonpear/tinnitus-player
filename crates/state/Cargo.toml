@@ -1,0 +1,20 @@
+[package]
+name = "state"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+audio.workspace = true
+gpui.workspace = true
+library.workspace = true
+log.workspace = true
+playlist.workspace = true
+rusqlite.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+ui.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

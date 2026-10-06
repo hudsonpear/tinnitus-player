@@ -1,0 +1,100 @@
+[workspace]
+resolver = "3"
+members = ["crates/*"]
+
+[workspace.package]
+version = "1.0.0"
+authors = ["Hudson Pear"]
+repository = "https://github.com/hudsonpear/tinnitus-player"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+
+[workspace.dependencies]
+# internal
+audio = { path = "crates/audio" }
+embed = { path = "crates/embed" }
+icons = { path = "crates/icons" }
+library = { path = "crates/library" }
+playlist = { path = "crates/playlist" }
+router = { path = "crates/router" }
+state = { path = "crates/state" }
+ui = { path = "crates/ui" }
+views = { path = "crates/views" }
+
+# gpui: pinned fork that splits out the platform layer and builds on windows-msvc.
+# Bump gpui and gpui_platform together or the build breaks.
+gpui = { git = "https://github.com/nolight132/gpui", rev = "96ffcd35c2d1eaccb2a27dddf3de588476b72000" }
+gpui_platform = { git = "https://github.com/nolight132/gpui", rev = "96ffcd35c2d1eaccb2a27dddf3de588476b72000", features = [
+  "font-kit",
+  "wayland",
+  "x11",
+] }
+
+anyhow = "1.0"
+arc-swap = "1.7"
+cpal = "0.17"
+dirs = "6.0"
+env_logger = "0.11"
+fastrand = "2.5"
+image = { version = "0.25", default-features = false, features = [
+  "jpeg",
+  "png",
+  "webp",
+] }
+log = "0.4"
+lofty = "0.25"
+notify = "8"
+notify-debouncer-full = "0.6"
+rayon = "1.10"
+# Every format the app claims to support has to be enabled here explicitly:
+# rodio's decoder is only as capable as its feature list, and a missing one is a
+# file that scans fine and then refuses to play.
+rodio = { version = "0.22", default-features = false, features = [
+  "playback",
+  "dither",
+  "mp3",             # MPEG-1 Audio Layer III
+  "flac",
+  "wav",             # wav demuxer + PCM
+  "vorbis",          # ogg demuxer + vorbis
+  "mp4",             # isomp4 demuxer + AAC, for .m4a / .mp4
+  "symphonia-aiff",
+  "symphonia-alac",  # Apple Lossless, also found in .m4a
+  "symphonia-adpcm", # some older .wav files
+  "symphonia-libopus", # .opus; pure-Rust build, no system libopus needed
+] }
+roxmltree = "0.21"
+rtrb = "0.3"
+rusqlite = { version = "0.37", features = ["bundled"] }
+rustfft = "6.4"
+serde = { version = "1.0", features = ["derive", "rc"] }
+serde_json = "1.0"
+sha2 = "0.10"
+souvlaki = "0.8"
+tempfile = "3"
+# Deleting a user's music goes through the Recycle Bin, not `unlink`. Doing that
+# properly means IFileOperation on Windows and the freedesktop spec elsewhere,
+# which is the whole of what this crate is for.
+trash = "5"
+walkdir = "2.5"
+
+[patch.crates-io]
+rodio = { git = "https://github.com/RustAudio/rodio", rev = "4aa22e85e5ad5565c45dfdda95051158eb6b56c3" }
+
+[profile.dev]
+split-debuginfo = "unpacked"
+
+# Dependencies are optimized even in dev builds: GPUI and the audio path are
+# unusably slow otherwise, and we never step through them.
+[profile.dev.package."*"]
+debug = false
+opt-level = 2
+
+[profile.dev.package.ui]
+debug = false
+opt-level = 2
+
+[profile.dev.package.views]
+debug = false
+opt-level = 2
+
+

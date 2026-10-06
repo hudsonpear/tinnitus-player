@@ -1,0 +1,5 @@
+# The pinned GPUI fork uses library features stabilized in 1.97.
+[toolchain]
+channel = "1.97.1"
+components = ["rustfmt", "clippy"]
+profile = "minimal"
